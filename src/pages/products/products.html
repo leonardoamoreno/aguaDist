@@ -1,0 +1,67 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title text-center no-margin>{{ pageTitle}}</ion-title>
+  </ion-navbar>
+  <div class="item" ion-item *ngIf="store" no-lines>
+    <ion-avatar item-start>
+      <img [src]="store.logo">
+    </ion-avatar>
+    <h3>{{ store.name }}</h3>
+    <p class="desc">1,5km - 15 à 40min</p>
+    <p class="rating" item-end *ngIf="store.rating; else novoTemplate">
+      <ion-icon name="star"></ion-icon>{{ store.rating }}</p>
+
+    <ng-template #novoTemplate>
+      <p class="rating" item-end>novo</p>
+    </ng-template>
+  </div>
+  <ion-toolbar color="white">
+
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="catalog" (click)="getValue('p')">
+        Produtos
+      </ion-segment-button>
+      <ion-segment-button value="reviews" (click)="getValue('r')">
+        Avaliações
+      </ion-segment-button>
+      <ion-segment-button value="info" (click)="getValue('i')">
+        Informações
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+
+
+  <div [ngSwitch]="view">
+
+    <ion-list *ngSwitchCase="'catalog'">
+      <ion-searchbar placeholder="Busca..."></ion-searchbar>
+      <button class="item" ion-item *ngFor="let p of products | async" (click)="getStore(s.id)">
+        <h3>{{ p.name }}</h3>
+        <p class="desc">{{p.description}}</p>
+        <p class="descPrice">
+          R$ {{p.price}}
+        </p>
+        <ion-avatar item-end>
+          <img [src]="p.photo">
+        </ion-avatar>
+      </button>
+    </ion-list>
+    <ion-list *ngSwitchCase="'reviews'">
+      <div class="item" ion-item *ngFor="let r of reviews | async" no-lines>       
+        <h3>{{ r.name }}</h3>   
+        <p class="desc">{{r.comment}}</p>     
+        <p class="rating" item-end>
+          <ion-icon name="star"></ion-icon>{{ r.rating }}</p>   
+      </div>
+    </ion-list>
+    <ion-list *ngSwitchCase="'info'">
+      <p ion-item>Distribuidora de Água desde 1990, levando Água de qualidade para sua casa.</p>
+    </ion-list>
+  </div>
+</ion-content>

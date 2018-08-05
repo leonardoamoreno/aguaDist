@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <!--<ion-title text-left>Selecione uma Distribuidora</ion-title>-->
+    <ion-searchbar placeholder="Buscar 20L, 2L, copos etc"></ion-searchbar>
+
+  </ion-toolbar>
+
+  <button ion-item no-lines full color="light" class="text-size">
+    <ion-icon name="pin" color="primary"></ion-icon>
+    Rua serra de santa marta, 485
+    <span item-end class="red">Trocar</span>
+  </button>
+
+</ion-header>
+<ion-content>
+
+  <ion-list>
+    <button class="item" ion-item *ngFor="let s of stores | async" (click)="getStore(s.$id)">
+      <ion-avatar item-start  >
+        <img [src]="s.logo">
+      </ion-avatar>
+      <h3>{{ s.name }}</h3>
+      <p class="desc">1,5km - 15 à 40min</p>
+      <p class="rating" item-end *ngIf="s.rating; else novoTemplate">
+        <ion-icon name="star"></ion-icon>{{ s.rating }}</p>
+
+        <ng-template #novoTemplate>
+            <p class="rating" item-end >novo</p>
+          </ng-template>
+    </button>
+
+  </ion-list>
+</ion-content>
